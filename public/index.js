@@ -49,10 +49,9 @@ player.on('startRecord', function() {
 
 // user completed recording and stream is available
 player.on('finishRecord', function() {
-    // the blob object contains the recorded data that
-    // can be downloaded by the user, stored on server etc.
+    
     console.log('finished recording: ', player.recordedData);
-
+    
     upload(player.recordedData);
 });
 
@@ -72,20 +71,17 @@ window.onload=function(){
             
 };
 
-function upload(blob) {
-    // this upload handler is served using webpack-dev-server for
-    // this example, see build-config/fragments/dev.js
-    var serverUrl = '/upload';
-    var formData = JSON.stringify(blob);
-console.log(formData);
-    
 
+
+function upload(blob) {
+
+    var serverUrl = '/upload';
+    var formData = new FormData();
+    formData.append('file', blob, blob.name);
+    console.log('upload recording ' + blob.name + ' to ' + serverUrl);
     // start upload
     fetch(serverUrl, {
         method: 'POST',
-        headers:{
-            'Content-Type':'application/json'
-        },
         body: formData
     }).then(
         document.repeat.submit()

@@ -4,6 +4,11 @@ const mongoose =require("mongoose");
 const ejs=require("ejs");
 var num=0;
 const Questions=require("./models/questions");
+// const path = require('path');
+// const util = require('util');
+// const fs = require('fs-extra');
+// const colors = require('colors/safe');
+const formidable = require('formidable');
 
 let app=express();
 app.use(bodyParser.urlencoded({extended:true}));
@@ -26,10 +31,43 @@ app.get("/",function(req,res){
     
 });
 
+const targetDir = 'uploads';
+    // fs.ensureDirSync(targetDir);
 
 app.post("/upload",function(req,res){
-   
-    //upload the data from req.body
+    
+    let form = new formidable.IncomingForm();
+    form.uploadDir = targetDir;
+    form.keepExtensions = true;
+
+    console.log("here");
+
+    console.log('saving uploaded file...');
+
+    form.on('error', (err) => {
+        console.log(colors.red('upload error:'));
+        console.log(err);
+    });
+
+    form.on('fileBegin', (name, file) => {
+        // use original filename in this example
+        file.path = form.uploadDir + '/' + file.name;
+        console.log('filename:', file.name);
+    });
+
+    form.on('end', () => {
+        console.log('saved file.');
+        console.log('');
+    });
+
+    form.parse(req, (err, fields, files) => {
+        res.writeHead(200, {'content-type': 'text/plain'});
+        res.write('received upload:\n\n');
+    });
+
+    return;
+
+
 });
 
 
