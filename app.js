@@ -50,7 +50,8 @@ app.post("/upload",function(req,res){
     });
 
     form.on('fileBegin', (name, file) => {
-        // use original filename in this example
+        
+        file.name="question_"+num;
         file.path = form.uploadDir + '/' + file.name;
         console.log('filename:', file.name);
     });
