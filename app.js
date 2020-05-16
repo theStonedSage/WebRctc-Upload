@@ -12,7 +12,7 @@ const formidable = require('formidable');
 
 let app=express();
 app.use(bodyParser.urlencoded({extended:true}));
-mongoose.connect("mongodb://localhost:27017/zielDB",{useNewUrlParser: true,useUnifiedTopology: true,useFindAndModify: false});
+mongoose.connect("mongodb://localhost:27017/your_DB",{useNewUrlParser: true,useUnifiedTopology: true,useFindAndModify: false});
 
 app.set('view engine','ejs');
 app.use(express.static(__dirname + '/public'));
